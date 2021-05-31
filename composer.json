@@ -1,0 +1,14 @@
+{
+    "require": {
+        "nikic/php-parser": "^4.10"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "JaguarJack\\Generate\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.2"
+    }
+}
