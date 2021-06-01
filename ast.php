@@ -10,77 +10,18 @@ require __DIR__ . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'autoloa
 $code = <<<'CODE'
 <?php
 
-namespace App\Http\Middleware;
+use http\Env\Request;
 
-class AuthTokenJWT
+
+explode(',', [123]);
+
+class Test
 {
-   
-    public function handle($request, Closure $next, $guard = 'hello')
-    {
-    
-    $a = null;
-    
-    $request->guard = $guard;
-    
-     throw new \Exception('asdasd');
-        return [
-        self::good()->column($name),
-        
-       
-];
-        try {
-            if ($guard) {
-                $request->guard = $guard;
-            }
-
-            // 判断是否有 token
-            $header = $request->header();//请求头信息
-
-            // 校区
-            $school_id = getSchoolId();
-            if (!in_array($school_id, ['-1', 0]) && $request->route()->getActionMethod() !== 'login') {
-                SchoolInfo::getSchoolInfo($school_id);
-            }
-
-            // 无需验证 直接通过 针对未验证路径
-            if (isset($request->not_verify) && $request->not_verify) {
-                return $next($request);
-            }
-
-            $authorization = $header['authorization'] ?? '';
-            if (!$authorization) {
-                throw new FailedException('请先登录', 202);
-            }
-
-            // 判断是否 开启超时自动退出
-            $config = Configuration::getVal('common_setting');//全局配置
-            if ($config['is_login_overtime']) {
-                $token = JWTAuth::getToken();
-                $key = 'jwt:' . md5($token);
-                if (!Cache::get($key)) {
-                    throw new FailedException('登录超时，请重新登录', 202); // 判断是否登录超时
-                }
-                Cache::put($key, 1, now()->addMinutes($config['login_overtime'])); // 未超时更新失效时间
-            }
-
-            $user = $request->user($guard);
-            // 需要验证的
-            if (!$user) {
-                throw new FailedException('登录超时，请重新登录', 202);
-            }
-
-            if ($user->status === BaseModel::DISABLE) {
-                throw new FailedException('用户已被禁用, 禁止登录', 202);
-            }
-
-            (new ReloginService($user->id, $guard))->checkReloginFlag();
-        } catch (FailedException $e) {
-            throw new FailedException($e->getMessage(), $e->getCode());
-        }
-        return $next($request);
+    public function getSomething(Request $type)
+    { 
+        return $this->getMethos()->render($this->ren());
     }
 }
-
 
 CODE;
 
@@ -94,7 +35,7 @@ try {
 
 $dumper = new NodeDumper;
 
-// dd($dumper->dump($ast));
+dd($dumper->dump($ast));
 $factory = new BuilderFactory();
 
 // $s = \JaguarJack\Generate\DefineVariable::fetch('a', null, '// goods');

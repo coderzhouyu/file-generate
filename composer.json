@@ -5,8 +5,10 @@
 
     "autoload": {
         "psr-4": {
-            "JaguarJack\\Generate\\": "src/"
-        }
+            "JaguarJack\\Generate\\": "src/",
+            "Test\\": "tests/"
+        },
+        "file": "src/helper.php"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.2",

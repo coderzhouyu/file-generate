@@ -2,7 +2,7 @@
 namespace JaguarJack\Generate\Types;
 
 
-use JaguarJack\Generate\DefineValue;
+use JaguarJack\Generate\Build\Value;
 use PhpParser\Node\Expr\ArrayItem;
 
 class Array_ extends \PhpParser\Node\Expr\Array_
@@ -29,9 +29,9 @@ class Array_ extends \PhpParser\Node\Expr\Array_
 
         foreach ($items as $k => $value) {
             $fetchItems[] = new ArrayItem(
-                DefineValue::fetch($value),
+                Value::fetch($value),
 
-                !$isAssoc ? DefineValue::fetch($k) : null
+                !$isAssoc ? Value::fetch($k) : null
             );
         }
 
