@@ -3,13 +3,25 @@ namespace JaguarJack\Generate\Types;
 
 
 use JaguarJack\Generate\Build\Value;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\ArrayItem;
 
 class Array_ extends \PhpParser\Node\Expr\Array_
 {
-    public function __construct(array $items = [], array $attributes = [])
+    protected $pretty;
+
+    /**
+     * Array_ constructor.
+     * @param array $items
+     * @param false $pretty
+     */
+    public function __construct(array $items = [], $pretty = true)
     {
-        parent::__construct($this->getItems($items), $attributes);
+        $this->pretty = $pretty;
+
+        parent::__construct($this->getItems($items), [
+            'kind' => self::KIND_SHORT
+        ]);
     }
 
 
@@ -18,21 +30,26 @@ class Array_ extends \PhpParser\Node\Expr\Array_
      *
      * @time 2021年05月31日
      * @param $items
-     * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      * @return array
      */
-    protected function getItems($items)
+    protected function getItems($items): array
     {
         $fetchItems = [];
 
         $isAssoc = array_keys($items) === range(0, count($items) - 1);
 
         foreach ($items as $k => $value) {
-            $fetchItems[] = new ArrayItem(
+            $item = new ArrayItem(
                 Value::fetch($value),
 
                 !$isAssoc ? Value::fetch($k) : null
             );
+
+            if ($this->pretty) {
+                $item->setDocComment(new Doc(PHP_EOL));
+            }
+
+            $fetchItems[] = $item;
         }
 
         return $fetchItems;

@@ -24,8 +24,8 @@ class Namespace_ extends \PhpParser\Builder\Namespace_
     public function useUse(...$uses)
     {
         foreach ($uses as $use) {
-            if (str_contains($use, 'as')) {
-                $uses = explode('as', $use);
+            if (str_contains($use, ' as ')) {
+                $uses = explode(' as ', $use);
 
                 $use = new Use_(
                     new Name($uses[0]), \PhpParser\Node\Stmt\Use_::TYPE_NORMAL

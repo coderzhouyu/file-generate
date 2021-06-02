@@ -5,7 +5,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
 
-class Variable
+class Variable extends \PhpParser\Node\Expr\Variable
 {
     /**
      * fetch
@@ -17,11 +17,11 @@ class Variable
      * @return Expression
      * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      */
-    public static function fetch($variableName, $variableValue = null, $document = null)
+    public static function fetch($variableName, $variableValue = null, $document = null): Expression
     {
         $expression = new Expression(
             new Assign(
-                new \PhpParser\Node\Expr\Variable($variableName),
+                new self($variableName),
                 Value::fetch($variableValue)
             )
         );

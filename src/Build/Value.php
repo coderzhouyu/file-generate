@@ -1,8 +1,6 @@
 <?php
 namespace JaguarJack\Generate\Build;
 
-use JaguarJack\Generate\Exceptions\TypeNotFoundException;
-
 class Value
 {
     /**
@@ -10,7 +8,6 @@ class Value
      *
      * @time 2021年05月31日
      * @param $value
-     * @throws TypeNotFoundException
      * @return mixed
      */
     public static function fetch($value)
@@ -18,7 +15,7 @@ class Value
         $class =  '\\JaguarJack\\Generate\\Types\\' . ucfirst(gettype($value)) . '_';
 
         if (! class_exists($class)) {
-            throw new TypeNotFoundException();
+            return $value;
         }
 
         return new $class($value);

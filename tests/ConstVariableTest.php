@@ -16,15 +16,6 @@ class ConstVariableTest extends TestCase
         $this->assertEquals($prettyPrinter->prettyPrintFile([$res]), $this->string());
     }
 
-    public function testArray()
-    {
-        $res = ConstVariable::fetch('a', ['this is a array']);
-
-        $prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
-
-        $this->assertEquals($prettyPrinter->prettyPrintFile([$res]), $this->array());
-    }
-
     public function testBoolean()
     {
         $res = ConstVariable::fetch('a',true);
@@ -44,15 +35,6 @@ PHP;
 
     }
 
-
-    protected function array()
-    {
-        return <<<PHP
-<?php
-
-const a = array('this is a array');
-PHP;
-    }
 
     protected function string()
     {

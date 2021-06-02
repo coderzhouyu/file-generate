@@ -18,6 +18,17 @@ class Params extends \PhpParser\Builder\Param
     }
 
     /**
+     * 引用
+     *
+     * @time 2021年06月02日
+     * @return Params
+     */
+    public function ref(): Params
+    {
+        return $this->makeByRef();
+    }
+
+    /**
      * 节点
      *
      * @time 2021年06月01日

@@ -49,5 +49,4 @@ class Method extends \PhpParser\Builder\Method
 
         }
     }
-
 }

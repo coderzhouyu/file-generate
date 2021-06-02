@@ -130,7 +130,7 @@ class Class_ extends \PhpParser\Builder\Class_
             return $this->addStmt($name->fetch());
         }
 
-        $property = (new BuilderFactory)->property('name')->setDefault(Value::fetch($value));
+        $property = (new BuilderFactory)->property($name)->setDefault(Value::fetch($value));
 
         if ($isStatic) {
             $property->makeStatic();

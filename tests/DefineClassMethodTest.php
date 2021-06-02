@@ -1,6 +1,7 @@
 <?php
 namespace Test;
 
+use JaguarJack\Generate\Build\Assign;
 use JaguarJack\Generate\Build\Class_;
 use JaguarJack\Generate\Build\ClassMethod;
 use JaguarJack\Generate\Build\MethodCall;
@@ -14,34 +15,46 @@ class DefineClassMethodTest extends TestCase
 {
     public function testClassMethod()
     {
-        $output = Standard::output(Class_::name('Test')
+        $output = Standard::output(
+            Class_::name('Test')
                     ->useMethod(
                        ClassMethod::name('getSomething')
                             ->addParam(
                                 Params::name('year')
-                                    ->setType('int')
-                                    ->setDefaultFalse()
+                            )->makeProtected()
+                            ->body([
+                                Variable::fetch('ssa', '1'),
 
-                            )->makePublic()
-                            ->addMethodBody(
-                                Variable::fetch('ssa', 'good')
-                            )
+                                Variable::fetch('ssa', '1'),
 
-                           ->addMethodBody(
-                               Variable::fetch('ssa', '1')
-                           )
-                           ->call('this', 'getmethod')
-                           ->call(null, 'goods', [new MethodCall(
-                               'this', 'bad'
-                           )])
+                                Variable::fetch('asd', new MethodCall(MethodCall::staticCall('self', 'get'), 'Good')),
+
+                                new Variable('asd')
+                            ])
                            ->return()
-                    )->fetch());
+                    )
+                ->fetch()
+        );
 
-        dd($output);
+        $this->assertEquals($output, $this->classMethod());
     }
 
 
     protected function classMethod()
-    {}
+    {
+        return <<<PHP
+class Test
+{
+    protected function getSomething(\$year)
+    {
+        \$ssa = '1';
+        \$ssa = '1';
+        \$asd = self::get()->Good();
+        return \$asd;
+    }
+}
+PHP;
+
+    }
 
 }

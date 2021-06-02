@@ -7,21 +7,124 @@ use PhpParser\PrettyPrinterAbstract;
 
 require __DIR__ . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
+
+$t = \JaguarJack\Generate\Build\Namespace_::name('catchAdmin\cms\controller')
+
+    ->useUse(
+        'catcher\base\CatchRequest as Request',
+        'catcher\CatchResponse',
+        'catcher\base\CatchController',
+        'catchAdmin\cms\model\Articles as articlesModel'
+    )
+    ->useClass(
+        \JaguarJack\Generate\Build\Class_::name('Test')
+            ->extend('CatchController')
+            ->useProperty(\JaguarJack\Generate\Build\Property::name('articlesModel')->makeProtected())
+            ->useMethod(
+                \JaguarJack\Generate\Build\ClassMethod::name('index')->makePublic()
+                    ->addParam(
+                        \JaguarJack\Generate\Build\Params::name('request')->setType('Request')
+                    )
+                    ->body([
+                       \JaguarJack\Generate\Build\MethodCall::staticCall('CatchResponse',
+                           'paginate',
+                           [
+                               new \JaguarJack\Generate\Build\MethodCall('this->articlesModel', 'getList')
+                           ]
+                       )
+                    ])
+                    ->return()
+            )
+            ->useMethod(
+                \JaguarJack\Generate\Build\ClassMethod::name('save')->makePublic()
+                    ->addParam(
+                        \JaguarJack\Generate\Build\Params::name('request')->setType('Request')
+                    )
+                    ->body([
+                        \JaguarJack\Generate\Build\MethodCall::staticCall('CatchResponse',
+                            'success',
+                            [
+                                new \JaguarJack\Generate\Build\MethodCall(
+                                    'this->articlesModel',
+                                    'storeBy',
+                                    [
+                                        new \JaguarJack\Generate\Build\MethodCall('request', 'post')
+                                    ]
+                                )
+                            ]
+                        )
+                    ])
+                    ->return()
+            )
+
+            ->useMethod(
+                \JaguarJack\Generate\Build\ClassMethod::name('read')->makePublic()
+                    ->addParam(
+                        \JaguarJack\Generate\Build\Params::name('id')
+                    )
+                    ->body([
+                        \JaguarJack\Generate\Build\MethodCall::staticCall('CatchResponse',
+                            'success',
+                            [
+                                new \JaguarJack\Generate\Build\MethodCall(
+                                    'this->articlesModel',
+                                    'findBy',
+                                    [
+                                        'id'
+                                    ]
+                                )
+                            ]
+                        )
+                    ])
+                    ->return()
+            )
+            ->useMethod(
+                \JaguarJack\Generate\Build\ClassMethod::name('update')->makePublic()
+                    ->addParam([
+                        \JaguarJack\Generate\Build\Params::name('request')->setType('Request'),
+                        \JaguarJack\Generate\Build\Params::name('id')
+                    ])
+                    ->body([
+                        \JaguarJack\Generate\Build\MethodCall::staticCall('CatchResponse',
+                            'success',
+                            [
+                                new \JaguarJack\Generate\Build\MethodCall('this->articlesModel', 'updateBy', [
+                                    'id',
+                                    new \JaguarJack\Generate\Build\MethodCall('request', 'post')
+                                ])
+                            ]
+                        )
+                    ])
+                    ->return()
+            )
+            ->useMethod(
+                \JaguarJack\Generate\Build\ClassMethod::name('delete')->makePublic()
+                    ->addParam([
+                        \JaguarJack\Generate\Build\Params::name('id')
+                    ])
+                    ->body([
+                        \JaguarJack\Generate\Build\MethodCall::staticCall('CatchResponse',
+                            'success',
+                            [
+                                new \JaguarJack\Generate\Build\MethodCall('this->articlesModel', 'deleteBy', [
+                                    'id',
+                                ])
+                            ]
+                        )
+                    ])
+                    ->return()
+            )
+    )
+    ->fetch();
+
+dd(\Test\Standard::output($t));
+
+
 $code = <<<'CODE'
 <?php
 
-use http\Env\Request;
+$a = implode(',', [123, 123]);
 
-
-explode(',', [123]);
-
-class Test
-{
-    public function getSomething(Request $type)
-    { 
-        return $this->getMethos()->render($this->ren());
-    }
-}
 
 CODE;
 
