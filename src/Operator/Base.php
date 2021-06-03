@@ -9,7 +9,6 @@ abstract class Base
 {
     abstract protected static function operate();
 
-
     /**
      * fetch
      *
