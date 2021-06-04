@@ -2,19 +2,18 @@
 namespace JaguarJack\Generate\Operator;
 
 /**
- * $a === $b
+ * $a !== $b
  *
- * Class Concat
+ * Class NotIdentical
  * @package JaguarJack\Generate\Operator
  * @author CatchAdmin
  * @time 2021年06月03日
  */
-class Identical extends Base
+class NotIdentical extends Base
 {
-    protected  function operate(): string
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
-        return \PhpParser\Node\Expr\BinaryOp\Identical::class;
+        return \PhpParser\Node\Expr\BinaryOp\NotIdentical::class;
     }
-
 }

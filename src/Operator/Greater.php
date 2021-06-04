@@ -11,10 +11,9 @@ namespace JaguarJack\Generate\Operator;
  */
 class Greater extends Base
 {
-    protected static function operate()
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
-
         return \PhpParser\Node\Expr\BinaryOp\Greater::class;
     }
 }

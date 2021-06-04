@@ -11,9 +11,12 @@ namespace JaguarJack\Generate\Operator;
  */
 class Minus extends Base
 {
-    protected static function operate()
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
+        if ($this->assign) {
+            return \PhpParser\Node\Expr\AssignOp\Minus::class;
+        }
 
         return \PhpParser\Node\Expr\BinaryOp\Minus::class;
     }

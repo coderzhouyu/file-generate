@@ -7,7 +7,26 @@ use PhpParser\Node\Expr\Variable;
 
 abstract class Base
 {
-    abstract protected static function operate();
+    protected $assign = false;
+
+    /**
+     *
+     * @time 2021年06月04日
+     * @return mixed
+     */
+    abstract protected function operate();
+
+    /**
+     *
+     * @time 2021年06月04日
+     * @return $this
+     */
+    public function assign()
+    {
+        $this->assign = true;
+
+        return $this;
+    }
 
     /**
      * fetch
@@ -18,13 +37,13 @@ abstract class Base
      * @param $right
      * @return mixed
      */
-    public static function fetch($left, $right)
+    public function fetch($left, $right)
     {
         $left = $left instanceof Expr ? $left : new Variable($left);
 
         $right = $right instanceof Expr ? $right : new Variable($right);
 
-        $operate = static::operate();
+        $operate = $this->operate();
 
         return new $operate($left, $right);
     }

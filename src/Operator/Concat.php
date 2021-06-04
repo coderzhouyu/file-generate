@@ -11,9 +11,12 @@ namespace JaguarJack\Generate\Operator;
  */
 class Concat extends Base
 {
-    protected static function operate()
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
+        if ($this->assign) {
+            return \PhpParser\Node\Expr\AssignOp\Concat::class;
+        }
 
         return \PhpParser\Node\Expr\BinaryOp\Concat::class;
     }

@@ -2,19 +2,18 @@
 namespace JaguarJack\Generate\Operator;
 
 /**
- * $a === $b
+ * $a >= $b
  *
- * Class Concat
+ * Class GreaterOrEqual
  * @package JaguarJack\Generate\Operator
  * @author CatchAdmin
  * @time 2021年06月03日
  */
-class Identical extends Base
+class GreaterOrEqual extends Base
 {
-    protected  function operate(): string
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
-        return \PhpParser\Node\Expr\BinaryOp\Identical::class;
+        return \PhpParser\Node\Expr\BinaryOp\GreaterOrEqual::class;
     }
-
 }

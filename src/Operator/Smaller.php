@@ -11,7 +11,7 @@ namespace JaguarJack\Generate\Operator;
  */
 class Smaller extends Base
 {
-    protected static function operate()
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
 

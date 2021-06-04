@@ -12,9 +12,12 @@ namespace JaguarJack\Generate\Operator;
  */
 class Div extends Base
 {
-    protected static function operate()
+    protected function operate(): string
     {
         // TODO: Implement operate() method.
+        if ($this->assign) {
+            return \PhpParser\Node\Expr\AssignOp\Div::class;
+        }
 
         return \PhpParser\Node\Expr\BinaryOp\Div::class;
     }
