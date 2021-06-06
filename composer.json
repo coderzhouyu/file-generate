@@ -1,5 +1,5 @@
 {
-    "name": "jaguarjack/file-generate",
+    "name": "jaguarjack/file-generate(master)",
     "description": "file-generate help you generate php file template",
     "type": "library",
     "license": "MIT",
@@ -20,7 +20,7 @@
             "JaguarJack\\Generate\\": "src/",
             "Test\\": "tests/"
         },
-        "file": "src/helper.php"
+        "files": "src/helper.php"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.2",
