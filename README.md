@@ -43,7 +43,7 @@ use JaguarJack\Generate\Build\Property;
 use JaguarJack\Generate\Build\ClassMethod;
 use JaguarJack\Generate\Build\Params;
 
-$if = Generator::namespace('App\Http\Controllers')
+Generator::namespace('App\Http\Controllers')
     ->uses([
         'App\Exceptions\FailedException',
         'App\Libary\Tools'
