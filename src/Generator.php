@@ -242,6 +242,23 @@ class Generator
         }
     }
 
+    /**
+     * when
+     *
+     * @time 2021年06月06日
+     * @param $condition
+     * @param \Closure $closure
+     * @return $this
+     */
+    public function when($condition, \Closure $closure)
+    {
+        if ($condition) {
+            $closure($this);
+        }
+
+        return $this;
+    }
+
 
     /**
      * 分割
