@@ -4,6 +4,7 @@ namespace JaguarJack\Generate\Build;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Identifier;
 
 class Property extends \PhpParser\Builder\Property
@@ -49,5 +50,18 @@ class Property extends \PhpParser\Builder\Property
     public static function defineIdentifier($variable, $identifier): PropertyFetch
     {
         return new PropertyFetch(new \PhpParser\Node\Expr\Variable($variable), new Identifier($identifier));
+    }
+
+    /**
+     * 定义属性访问
+     *
+     * @time 2021年06月02日
+     * @param $variable
+     * @param $identifier
+     * @return StaticPropertyFetch
+     */
+    public static function staticDefineIdentifier($variable, $identifier)
+    {
+        return new StaticPropertyFetch(new \PhpParser\Node\Expr\Variable($variable), new Identifier($identifier));
     }
 }

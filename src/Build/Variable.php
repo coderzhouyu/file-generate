@@ -19,9 +19,11 @@ class Variable extends \PhpParser\Node\Expr\Variable
      */
     public static function fetch($variableName, $variableValue = null, $document = null): Expression
     {
+        $variableName = is_string($variableName) ? new self($variableName) : $variableName;
+
         $expression = new Expression(
             new Assign(
-                new self($variableName),
+                $variableName,
                 Value::fetch($variableValue)
             )
         );

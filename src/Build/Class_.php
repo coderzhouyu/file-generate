@@ -128,21 +128,22 @@ class Class_ extends \PhpParser\Builder\Class_
     {
         if ($name instanceof Property) {
             return $this->addStmt($name->fetch());
+        } else {
+
+            $property = (new BuilderFactory)->property($name)->setDefault(Value::fetch($value));
+
+            if ($isStatic) {
+                $property->makeStatic();
+            }
+
+            if ($document) {
+                $property->setDocComment(new Doc($document));
+            }
+
+            $property->{'make' . ucwords($visible)}();
+
+            return $this->addStmt($property->getNode());
         }
-
-        $property = (new BuilderFactory)->property($name)->setDefault(Value::fetch($value));
-
-        if ($isStatic) {
-            $property->makeStatic();
-        }
-
-        if ($document) {
-            $property->setDocComment(new Doc($document));
-        }
-
-        $property->{'make' . ucwords($visible)}();
-
-        return $this->addStmt($property->getNode());
     }
 
     /**

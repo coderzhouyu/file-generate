@@ -35,18 +35,17 @@ class Method extends \PhpParser\Builder\Method
             if (is_numeric($k)) {
                 $this->addParam(
                     new Param(
-                        new \PhpParser\Node\Expr\Variable($value)
+                        new Variable($value)
                     )
                 );
             } else {
                 $this->addParam(
                     new Param(
-                        new \PhpParser\Node\Expr\Variable($k),
+                        new Variable($k),
                         Value::fetch($value)
                     )
                 );
             }
-
         }
     }
 }

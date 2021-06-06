@@ -3,6 +3,7 @@ namespace JaguarJack\Generate\Block;
 
 
 use PhpParser\Node\Stmt\Else_;
+use PhpParser\Node\Stmt\Return_;
 
 class If_
 {
@@ -39,39 +40,19 @@ class If_
    }
 
     /**
-     * fetch else if
-     *
-     * @time 2021年06月04日
-     * @return void
-     */
-   protected function fetchElseIf()
-   {
-       $elseCount = count($this->elseif);
-
-       if ($elseCount) {
-           $elseif = array_pop($this->elseif);
-
-           while (count($this->elseif)) {
-               $endElse = array_pop($this->elseif);
-
-               $endElse->else = $elseif;
-
-               $elseif = $endElse;
-           }
-
-           $this->if->else = $elseif;
-       }
-   }
-
-    /**
      * if
      *
      * @time 2021年06月04日
      * @param array $body
+     * @param bool $return
      * @return If_
      */
-    public function block(array $body)
+    public function block(array $body, $return = false): If_
     {
+        if ($return) {
+            array_push($body, new Return_(array_pop($body)));
+        }
+
         $this->if->stmts = $body;
 
         return $this;

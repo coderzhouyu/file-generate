@@ -89,4 +89,25 @@ class Params extends \PhpParser\Builder\Param
         return parent::setDefault(Value::fetch(true));
     }
 
+    /**
+     * 获取类型
+     *
+     * @time 2021年06月06日
+     * @return \PhpParser\Node\Identifier|\PhpParser\Node\Name|\PhpParser\Node\NullableType|null
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * 获取名称
+     *
+     * @time 2021年06月06日
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

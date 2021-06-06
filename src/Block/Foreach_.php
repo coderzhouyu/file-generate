@@ -16,7 +16,12 @@ class Foreach_
 
     protected $block;
 
-
+    /**
+     * Foreach_ constructor.
+     * @param string $exr // array variable
+     * @param $value // array value
+     * @param null $k // array key
+     */
     public function __construct(string $exr, $value, $k = null)
     {
        $this->expr = $exr;
@@ -26,8 +31,12 @@ class Foreach_
        $this->k = $k;
     }
 
-
-    public function fetch()
+    /**
+     *
+     * @time 2021年06月06日
+     * @return Node\Stmt\Foreach_
+     */
+    public function fetch(): Node\Stmt\Foreach_
     {
         $subNodes = [];
 
@@ -57,7 +66,7 @@ class Foreach_
      * @param array $stmts
      * @return $this
      */
-    public function block(array $stmts)
+    public function block(array $stmts): Foreach_
     {
         $this->block = $stmts;
 

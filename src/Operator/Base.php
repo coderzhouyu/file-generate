@@ -1,7 +1,7 @@
 <?php
 namespace JaguarJack\Generate\Operator;
 
-
+use JaguarJack\Generate\Exceptions\InvalidArgumentException;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
 
@@ -31,20 +31,34 @@ abstract class Base
     /**
      * fetch
      *
+     * @param mixed ...$args
+     * @return mixed
+     * @throws InvalidArgumentException
      * @author CatchAdmin
      * @time 2021年06月03日
-     * @param $left
-     * @param $right
-     * @return mixed
      */
-    public function fetch($left, $right)
+    public function fetch(...$args)
     {
-        $left = $left instanceof Expr ? $left : new Variable($left);
-
-        $right = $right instanceof Expr ? $right : new Variable($right);
+        $argsNumber = count($args);
 
         $operate = $this->operate();
 
-        return new $operate($left, $right);
+        if ($argsNumber === 2) {
+            list($left, $right) = $args;
+
+            $left = $left instanceof Expr ? $left : new Variable($left);
+
+            $right = $right ? ($right instanceof Expr ? $right : new Variable($right)) : null;
+
+            return new $operate($left, $right);
+        }
+
+        if ($argsNumber === 1) {
+            $arg = $args[0] instanceof Expr ? $args[0] : new Variable($args[0]);
+
+            return new $operate($arg);
+        }
+
+        throw new InvalidArgumentException();
     }
 }

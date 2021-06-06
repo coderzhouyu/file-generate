@@ -3,20 +3,18 @@ namespace JaguarJack\Generate\Block;
 
 class Elseif_
 {
-    protected static $elseif;
+    protected $elseif;
 
     /**
      * condition
      *
      * @time 2021年06月04日
      * @param $condition
-     * @return Elseif_
+     * @return void
      */
-    public static function condition($condition): Elseif_
+    public function __construct($condition)
     {
-        self::$elseif = new \PhpParser\Node\Stmt\ElseIf_($condition);
-
-        return new self;
+        $this->elseif = new \PhpParser\Node\Stmt\ElseIf_($condition);
     }
 
     /**
@@ -29,8 +27,12 @@ class Elseif_
      */
     public function block(array $stmt)
     {
-        self::$elseif->stmts = $stmt;
+        if (! count($stmt)) {
+            return $this->elseif;
+        }
 
-        return self::$elseif;
+        $this->elseif->stmts = $stmt;
+
+        return $this->elseif;
     }
 }

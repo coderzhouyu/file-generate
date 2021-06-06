@@ -1,7 +1,7 @@
 <?php
 namespace Test\Operator;
 
-use JaguarJack\Generate\Build\Operator;
+use JaguarJack\Generate\Operator;
 use PHPUnit\Framework\TestCase;
 use Test\Standard;
 

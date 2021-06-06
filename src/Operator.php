@@ -1,8 +1,7 @@
 <?php
-namespace JaguarJack\Generate\Build;
+namespace JaguarJack\Generate;
 
 use JaguarJack\Generate\Exceptions\OperatorNotFoundException;
-use JaguarJack\Generate\Operator\Coalesce;
 
 /**
  * operator
@@ -29,6 +28,7 @@ use JaguarJack\Generate\Operator\Coalesce;
  * @method static notEqual($left, $right)
  * @method static notIdentical($left, $right)
  * @method static smallerOrEqual($left, $right)
+ * @method static not($not)
  *
  * @time 2021年06月04日
  */
@@ -65,7 +65,7 @@ class Operator
      */
     protected static function getOperator($name)
     {
-        $class = '\\JaguarJack\\Generate\\Operator\\' . ucfirst($name);
+        $class = __NAMESPACE__  . '\\Operator\\' . ucfirst($name);
 
         if ( !class_exists($class)) {
             throw new OperatorNotFoundException();
