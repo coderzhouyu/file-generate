@@ -10,11 +10,18 @@ class Params extends \PhpParser\Builder\Param
      *
      * @time 2021年06月01日
      * @param $name
+     * @param null $type
      * @return Params
      */
-    public static function name($name): Params
+    public static function name($name, $type = null): Params
     {
-        return new self($name);
+        $param = new self($name);
+
+        if ($type) {
+            $param->setType($type);
+        }
+
+        return $param;
     }
 
     /**

@@ -7,7 +7,6 @@ use PhpParser\Node\Stmt\Return_;
 
 class ClassMethod extends Method
 {
-
     /**
      * @var array
      */
@@ -19,8 +18,11 @@ class ClassMethod extends Method
      */
     protected $return = false;
 
-    protected $document;
 
+    /**
+     * @var string
+     */
+    protected $document;
 
     /**
      * @var string
@@ -36,7 +38,7 @@ class ClassMethod extends Method
      * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      * @return ClassMethod
      */
-    public static function name(string $name)
+    public static function name(string $name): ClassMethod
     {
         return new self($name);
     }
@@ -98,9 +100,13 @@ class ClassMethod extends Method
      * @time 2021年06月02日
      * @return $this
      */
-    public function return(): ClassMethod
+    public function return($returnType = null): ClassMethod
     {
         $this->return = true;
+
+        if ($returnType) {
+            $this->setReturnType($returnType);
+        }
 
         return $this;
     }
@@ -123,7 +129,7 @@ class ClassMethod extends Method
      * 注释
      *
      * @time 2021年06月02日
-     * @param \Closure $closure
+     * @param \Closure $setDocument
      * @return ClassMethod
      */
     public function document(\Closure $setDocument): ClassMethod
@@ -137,9 +143,9 @@ class ClassMethod extends Method
      * default comment
      *
      * @time 2021年06月06日
-     * @return array|string|string[]
+     * @return string
      */
-    protected function setDefaultDocument()
+    protected function setDefaultDocument(): string
     {
         $now = date('Y/m/d H:i');
 
@@ -186,7 +192,7 @@ DOC;
      * @time 2021年06月07日
      * @return string
      */
-    public function getParamsDoc()
+    public function getParamsDoc(): string
     {
         return $this->paramDoc;
     }
