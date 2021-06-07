@@ -41,7 +41,7 @@ class Generator
      * @param string $namespace
      * @return Generator
      */
-    public static function namespace(string $namespace)
+    public static function namespace(string $namespace): Generator
     {
         static::$namespace = $namespace;
 
@@ -55,7 +55,7 @@ class Generator
      * @param array $uses
      * @return $this
      */
-    public function uses(array $uses)
+    public function uses(array $uses): Generator
     {
         $this->uses = $uses;
 
@@ -67,10 +67,10 @@ class Generator
      *
      * @time 2021年06月06日
      * @param string $className
-     * @param \Closure $closure
+     * @param \Closure|null $closure
      * @return $this
      */
-    public function class(string $className, \Closure $closure = null)
+    public function class(string $className, \Closure $closure = null): Generator
     {
         $this->class = Class_::name($className)->setDocComment($this->gap());
 
@@ -156,7 +156,7 @@ class Generator
      * @return string
      *@throws \Exception
      */
-    public function print()
+    public function print(): string
     {
         $standard = new Standard();
 
@@ -177,7 +177,7 @@ class Generator
      * @throws \JaguarJack\Generate\Exceptions\GenerateFailedExceptions
      * @return bool
      */
-    public function file($filename, $path = './')
+    public function file($filename, $path = './'): bool
     {
         $file = $path . $filename . '.php';
 
@@ -199,7 +199,7 @@ class Generator
      * @param array $args
      * @return MethodCall
      */
-    public function methodCall($name, $args = [], $class = 'this')
+    public function methodCall($name, $args = [], $class = 'this'): MethodCall
     {
         return new MethodCall($class, $name, $args);
     }
@@ -213,7 +213,7 @@ class Generator
      * @param array $args
      * @return \PhpParser\Node\Expr\StaticCall
      */
-    public function staticMethodCall($name, $args = [], $class = 'self')
+    public function staticMethodCall($name, $args = [], $class = 'self'): \PhpParser\Node\Expr\StaticCall
     {
         return MethodCall::staticCall($class, $name, $args);
     }
@@ -235,7 +235,6 @@ class Generator
                 $this->call = $this->{$callMethod}($method, $args, $this->call);
             }
 
-
             return $this;
         } else {
             return $this->call;
@@ -250,7 +249,7 @@ class Generator
      * @param \Closure $closure
      * @return $this
      */
-    public function when($condition, \Closure $closure)
+    public function when($condition, \Closure $closure): Generator
     {
         if ($condition) {
             $closure($this);
@@ -259,14 +258,13 @@ class Generator
         return $this;
     }
 
-
     /**
      * 分割
      *
      * @time 2021年06月06日
      * @return string
      */
-    protected function gap()
+    protected function gap(): string
     {
         return PHP_EOL;
     }

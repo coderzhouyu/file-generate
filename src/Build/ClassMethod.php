@@ -123,12 +123,12 @@ class ClassMethod extends Method
      * 注释
      *
      * @time 2021年06月02日
-     * @param $document
+     * @param \Closure $closure
      * @return ClassMethod
      */
-    public function document($document): ClassMethod
+    public function document(\Closure $setDocument): ClassMethod
     {
-        $this->document = $document;
+        $this->document = $setDocument($this);
 
         return $this;
     }
@@ -145,16 +145,19 @@ class ClassMethod extends Method
 
         $return = $this->returnType ? : 'mixed';
 
-        $doc = <<<DOC
+        $temp = <<<DOC
 /**
  *
- * @time {$now}
+ * @time {NOW}
 {PARAMS}
- * @return {$return}
+ * @return {RETURN}
  */
 DOC;
 
-        return PHP_EOL . str_replace('{PARAMS}', $this->paramDoc, $doc);
+        return PHP_EOL . str_replace(
+            ['{PARAMS}', '{NOW}', '{RETURN}'],
+            [$this->paramDoc, $now, $return],
+            $temp);
     }
 
     /**
@@ -163,7 +166,7 @@ DOC;
      * @param $param
      * @return void
      */
-    protected function parseParamDoc($param)
+    public function parseParamDoc($param)
     {
         $temp = ' * @param %s$%s' . PHP_EOL;
 
@@ -177,4 +180,25 @@ DOC;
         }
     }
 
+    /**
+     * param doc
+     *
+     * @time 2021年06月07日
+     * @return string
+     */
+    public function getParamsDoc()
+    {
+        return $this->paramDoc;
+    }
+
+    /**
+     * return type
+     *
+     * @time 2021年06月07日
+     * @return \PhpParser\Node\Name|\PhpParser\Node\NullableType|string|null
+     */
+    public function getReturnType()
+    {
+        return $this->returnType;
+    }
 }
