@@ -7,6 +7,7 @@ use JaguarJack\Generate\Build\MethodCall;
 use JaguarJack\Generate\Build\Namespace_;
 use JaguarJack\Generate\Build\Property;
 use JaguarJack\Generate\Exceptions\GenerateFailedExceptions;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\PrettyPrinter\Standard;
 
 class Generator
@@ -195,12 +196,17 @@ class Generator
      *
      * @time 2021年06月06日
      * @param $name
-     * @param string $class
      * @param array $args
      * @return MethodCall
      */
-    public function methodCall($name, $args = [], $class = 'this'): MethodCall
+    public function methodCall($name, $args = []): MethodCall
     {
+        if (is_array($name)) {
+            list($class, $name) = $name;
+        } else {
+            $class= 'this';
+        }
+
         return new MethodCall($class, $name, $args);
     }
 
@@ -209,12 +215,17 @@ class Generator
      *
      * @time 2021年06月06日
      * @param $name
-     * @param string $class
      * @param array $args
      * @return \PhpParser\Node\Expr\StaticCall
      */
-    public function staticMethodCall($name, $args = [], $class = 'self'): \PhpParser\Node\Expr\StaticCall
+    public function staticMethodCall($name, $args = []): \PhpParser\Node\Expr\StaticCall
     {
+        if (is_array($name)) {
+            list($class, $name) = $name;
+        } else {
+            $class= 'self';
+        }
+
         return MethodCall::staticCall($class, $name, $args);
     }
 
@@ -224,20 +235,31 @@ class Generator
      * @time 2021年06月06日
      * @return array|Generator
      */
-    public function call(string $method = null, $args = [], $class = 'this')
+    public function call($call = null, $args = [], $class = 'this')
     {
-        if ($method) {
+        // 首次入栈
+        if ($call instanceof MethodCall || $call instanceof StaticCall) {
+            $this->call = $call;
+
+            return $this;
+        }
+
+        if ($call) {
             $callMethod = $class === 'this' ? 'methodCall' : 'staticMethodCall';
 
-            if (!$this->call) {
-                $this->call = $this->{$callMethod}($method, $args, $class);
+            if (! $this->call) {
+                $this->call = $this->{$callMethod}([$class, $call], $args);
             } else {
-                $this->call = $this->{$callMethod}($method, $args, $this->call);
+                $this->call = $this->{$callMethod}([$this->call, $call], $args);
             }
 
             return $this;
         } else {
-            return $this->call;
+            $call = $this->call;
+
+            $this->call = null;
+
+            return $call;
         }
     }
 
