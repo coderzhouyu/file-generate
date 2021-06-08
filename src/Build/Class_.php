@@ -49,7 +49,7 @@ class Class_ extends \PhpParser\Builder\Class_
             if (str_contains($trait, '::')) {
                 $trait = explode('::', $trait);
 
-                $smtTraits[] = new Name($trait[0]);
+                $smtTraits[] = new Name($this->getLastTraitName($trait[0]));
 
                 if (str_contains($trait[1], 'as')) {
                     $as = explode('as', $trait[1]);
@@ -62,11 +62,9 @@ class Class_ extends \PhpParser\Builder\Class_
 
                     $adaptations[] = (new TraitUseAdaptation($trait[0], $instanceof[0]))->insteadof($instanceof[1])->getNode();
                 }
-
             } else {
-                $smtTraits[] = new Name($trait);
+                $smtTraits[] = new Name($this->getLastTraitName($trait));
             }
-
         }
 
         return $this->addStmt(new TraitUse($smtTraits, $adaptations));
@@ -144,6 +142,19 @@ class Class_ extends \PhpParser\Builder\Class_
 
             return $this->addStmt($property->getNode());
         }
+    }
+
+    /**
+     *
+     * @time 2021年06月08日
+     * @param $trait
+     * @return mixed|string|null
+     */
+    protected function getLastTraitName($trait)
+    {
+        $parts = explode('\\', $trait);
+
+        return array_pop($parts);
     }
 
     /**

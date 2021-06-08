@@ -45,7 +45,7 @@ class Array_ extends \PhpParser\Node\Expr\Array_
                 !$isAssoc ? Value::fetch($k) : null
             );
 
-            if ($this->pretty) {
+            if ($this->pretty && $k > 0) {
                 $item->setDocComment(new Doc(PHP_EOL));
             }
 
