@@ -2,6 +2,7 @@
 
 namespace JaguarJack\Generate\Build;
 
+use PhpParser\Comment;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
@@ -57,5 +58,19 @@ class MethodCall extends \PhpParser\Node\Expr\MethodCall
         }
 
         return $args;
+    }
+
+    /**
+     * document
+     *
+     * @time 2021年06月09日
+     * @param string $docComment
+     * @return \JaguarJack\Generate\Build\MethodCall
+     */
+    public function docComment(string $docComment): MethodCall
+    {
+        $this->setDocComment(new Comment\Doc($docComment));
+
+        return $this;
     }
 }

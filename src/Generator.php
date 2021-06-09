@@ -3,6 +3,7 @@ namespace JaguarJack\Generate;
 
 use JaguarJack\Generate\Build\Class_;
 use JaguarJack\Generate\Build\ClassMethod;
+use JaguarJack\Generate\Build\Closure;
 use JaguarJack\Generate\Build\MethodCall;
 use JaguarJack\Generate\Build\Namespace_;
 use JaguarJack\Generate\Build\Property;
@@ -154,19 +155,24 @@ class Generator
      * 打印
      *
      * @time 2021年06月06日
+     * @param null $content
      * @return string
-     *@throws \Exception
+     * @throws \Exception
      */
-    public function print(): string
+    public function print($content = null): string
     {
         $standard = new Standard();
 
-        return $standard->prettyPrintFile([
-            Namespace_::name(self::$namespace)
-                ->useUse(...$this->uses)
-                ->useClass($this->class)
-                ->fetch()
-        ]);
+        if (! $content) {
+            return $standard->prettyPrintFile([
+                Namespace_::name(self::$namespace)
+                    ->useUse(...$this->uses)
+                    ->useClass($this->class)
+                    ->fetch()
+            ]);
+        } else {
+            return $standard->prettyPrintFile($content);
+        }
     }
 
     /**
@@ -278,6 +284,18 @@ class Generator
         }
 
         return $this;
+    }
+
+    /**
+     * closure
+     *
+     * @time 2021年06月09日
+     * @param ...$params
+     * @return \JaguarJack\Generate\Build\Closure
+     */
+    public function closure(...$params): Closure
+    {
+        return (new Closure())->addParams(...$params);
     }
 
     /**
