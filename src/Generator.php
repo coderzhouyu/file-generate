@@ -10,6 +10,7 @@ use JaguarJack\Generate\Build\Property;
 use JaguarJack\Generate\Exceptions\GenerateFailedExceptions;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\PrettyPrinter\Standard;
+use PhpParser\PrettyPrinterAbstract;
 
 class Generator
 {
@@ -172,6 +173,30 @@ class Generator
             ]);
         } else {
             return $standard->prettyPrintFile($content);
+        }
+    }
+
+    /**
+     * get content
+     *
+     * @time 2021年06月09日
+     * @param null $content
+     * @throws \Exception
+     * @return string
+     */
+    public function getContent($content = null): string
+    {
+        $standard = new Standard();
+
+        if (! $content) {
+            return $standard->prettyPrint([
+                Namespace_::name(self::$namespace)
+                    ->useUse(...$this->uses)
+                    ->useClass($this->class)
+                    ->fetch()
+            ]);
+        } else {
+            return $standard->prettyPrint($content);
         }
     }
 
