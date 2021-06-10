@@ -1,11 +1,11 @@
 <?php
 namespace JaguarJack\Generate;
 
-
 use JaguarJack\Generate\Build\ConstVariable;
 use JaguarJack\Generate\Build\Property;
 use JaguarJack\Generate\Build\Value;
 use JaguarJack\Generate\Build\Variable;
+use PhpParser\Node\Expr\ClassConstFetch;
 
 class Define
 {
@@ -88,8 +88,22 @@ class Define
      * @param string $class
      * @return \PhpParser\Node\Expr\StaticPropertyFetch
      */
-    public static function StaticPropertyDefineIdentifier(string $identifier, $class = 'self')
+    public static function StaticPropertyDefineIdentifier(string $identifier, $class = 'self'): \PhpParser\Node\Expr\StaticPropertyFetch
     {
         return Property::staticDefineIdentifier($class, $identifier);
     }
+
+    /**
+     * class fetch
+     *
+     * @time 2021年06月10日
+     * @param $class
+     * @param string $name
+     * @return \PhpParser\Node\Expr\ClassConstFetch
+     */
+    public static function classConstFetch($class, $name = 'class'): ClassConstFetch
+    {
+        return new ClassConstFetch($class, $name);
+    }
+
 }
