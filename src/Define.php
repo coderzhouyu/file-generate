@@ -15,16 +15,17 @@ class Define
      * @time 2021年06月06日
      * @param $name
      * @param null $value
-     * @throws Exceptions\TypeNotFoundException
+     * @param null $document
      * @return Variable|\PhpParser\Node\Stmt\Expression
+     * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      */
-    public static function variable($name, $value = null)
+    public static function variable($name, $value = null, $document = null)
     {
         if (! $value) {
             return new Variable($name);
         }
 
-        return Variable::fetch($name, $value);
+        return Variable::fetch($name, $value, $document);
     }
 
     /**
