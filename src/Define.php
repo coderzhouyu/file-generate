@@ -1,11 +1,11 @@
 <?php
 namespace JaguarJack\Generate;
 
+use JaguarJack\Generate\Build\ClassConstFetch;
 use JaguarJack\Generate\Build\ConstVariable;
 use JaguarJack\Generate\Build\Property;
 use JaguarJack\Generate\Build\Value;
 use JaguarJack\Generate\Build\Variable;
-use PhpParser\Node\Expr\ClassConstFetch;
 
 class Define
 {
