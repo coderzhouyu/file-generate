@@ -39,17 +39,20 @@ class Array_ extends \PhpParser\Node\Expr\Array_
         $isAssoc = array_keys($items) === range(0, count($items) - 1);
 
         foreach ($items as $k => $value) {
-            $item = new ArrayItem(
-                Value::fetch($value),
+            if ($value instanceof ArrayItem) {
+                $fetchItems[] = $value;
+            } else {
+                $item = new ArrayItem(
+                    Value::fetch($value),
 
-                !$isAssoc ? Value::fetch($k) : null
-            );
+                    !$isAssoc ? Value::fetch($k) : null
+                );
 
-            if ($this->pretty && $k > 0) {
-                $item->setDocComment(new Doc(PHP_EOL));
+                if ($this->pretty && $k > 0) {
+                    $item->setDocComment(new Doc(PHP_EOL));
+                }
+                $fetchItems[] = $item;
             }
-
-            $fetchItems[] = $item;
         }
 
         return $fetchItems;
