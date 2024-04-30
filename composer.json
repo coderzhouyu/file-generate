@@ -1,15 +1,14 @@
 {
-    "name": "jaguarjack/file-generate",
+    "name": "coderzhouyu/file-generate",
     "description": "file-generate help you generate php file template",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "jaguarjack",
-            "email": "njphper@gmail.com"
+            "name": "coderzhouyu",
+            "email": "coderzhouyu@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=7.1",
         "nikic/php-parser": "^4.10"
